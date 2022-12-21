@@ -39,11 +39,11 @@ public class ReaderService : IReaderService
 
     public async Task<Reader> Promote(int readerId, ReaderTypeEnum readerType)
     {
-        using(_context)
+        using (_context)
         {
             var employee = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
 
-            if(employee == null)
+            if (employee == null)
             {
                 throw new Exception("Nie ma takiego pracownika");
             }
@@ -58,7 +58,7 @@ public class ReaderService : IReaderService
 
             if (employee.ReaderTypeEnum == ReaderTypeEnum.Wykladowca)
             {
-                if(readerType == ReaderTypeEnum.Pracownik)
+                if (readerType == ReaderTypeEnum.Pracownik)
                     employee.ReaderTypeEnum = ReaderTypeEnum.Pracownik;
                 else
                     throw new Exception("Nie możesz zostać studentem");
@@ -72,6 +72,51 @@ public class ReaderService : IReaderService
             await _context.SaveChangesAsync();
             return employee;
         }
+    }
+
+    public async Task<Reader> RemoveReader(int readerId)
+    {
+        using (_context)
+        {
+            var reader = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
+            if (reader is null)
+                throw new Exception("Nie ma takiego czytelnika, którego chcesz usunąć");
+            else
+            {
+                _context.Reader.Remove(reader);
+                await _context.SaveChangesAsync();
+                return reader;
+            }
+        }
+    }
+
+    public async Task<Reader> UpdateReader(int readerId, Reader reader)
+    {
+        var readerToEdit = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
+        if (readerToEdit is null)
+            throw new Exception("Nie ma czytelnika, którego chcesz edytować w bazie");
+        else
+        {
+            if (_context.Reader.FirstOrDefaultAsync(x => x.Pesel == reader.Pesel) is not null)
+                throw new Exception("Nie możesz edytować na tkai numer pesel ponieważ taki pesel już istnieje w bazie");
+            else
+            {
+                readerToEdit.Pesel = reader.Pesel;
+                readerToEdit.Name = reader.Name;
+                readerToEdit.Surname = reader.Surname;
+                readerToEdit.ReaderTypeEnum = reader.ReaderTypeEnum;
+            }
+
+            await _context.SaveChangesAsync();
+            return readerToEdit;
+        }
+    }
+
+    public async Task<Reader> GetReader(int readerId)
+    {
+        var reader = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
+
+        return reader;
     }
 
     public async Task<decimal> CalculateFine(int readerId)
@@ -110,7 +155,7 @@ public class ReaderService : IReaderService
         foreach (var transaction in transactions.Where(x => (x.ReturnDate - x.ExpectedReturnDate).Value.Days > 28))
         {
             var days = (transaction.ReturnDate - transaction.ExpectedReturnDate).Value.Days - 28;
-            fine += 5 * days; 
+            fine += 5 * days;
         }
         return fine;
     }
