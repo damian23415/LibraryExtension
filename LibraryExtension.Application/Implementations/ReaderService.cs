@@ -26,9 +26,7 @@ public class ReaderService : IReaderService
         {
             var readerPeselAlreadyExists = await _context.Reader.FirstOrDefaultAsync(x => x.Pesel == reader.Pesel);
             if (readerPeselAlreadyExists != null)
-            {
                 throw new Exception("Użytkownik z podanym numerem PESEL już istnieje w bazie, nie można stworzyć takiego użytkownika");
-            }
 
             await _context.Reader.AddAsync(reader);
             await _context.SaveChangesAsync();
@@ -44,14 +42,10 @@ public class ReaderService : IReaderService
             var employee = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
 
             if (employee == null)
-            {
                 throw new Exception("Nie ma takiego pracownika");
-            }
 
             if (employee.ReaderTypeEnum == readerType)
-            {
                 throw new Exception("Nie możesz się awansować na tego kim jesteś");
-            }
 
             if (employee.ReaderTypeEnum == ReaderTypeEnum.Pracownik)
                 throw new Exception("Jeteś pracownikiem i nie można zmienić twojej posady");
@@ -65,9 +59,7 @@ public class ReaderService : IReaderService
             }
 
             if (employee.ReaderTypeEnum == ReaderTypeEnum.Student)
-            {
                 employee.ReaderTypeEnum = readerType;
-            }
 
             await _context.SaveChangesAsync();
             return employee;
@@ -127,16 +119,12 @@ public class ReaderService : IReaderService
         {
             var reader = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
             if (reader is null)
-            {
                 throw new Exception("Nie ma takiego czytelnika w bazie");
-            }
 
             var transactions = await _context.Transaction.Where(x => x.ReaderId == readerId).ToListAsync();
 
             if (transactions is null)
-            {
                 throw new Exception("Taki użytkownik nie ma żadnej transakcji");
-            }
 
             transactions = transactions.Where(x => x.ReturnDate is not null).ToList();
 
@@ -169,21 +157,13 @@ public class ReaderService : IReaderService
         {
             var days = (transaction.ReturnDate - transaction.ExpectedReturnDate).Value.Days;
             if (days > 28)
-            {
                 fine += 10 * (days - 28);
-            }
             else if (days > 14)
-            {
                 fine += 5 * (days - 14);
-            }
             else if (days > 7)
-            {
                 fine += 2 * (days - 7);
-            }
             else if (days > 0)
-            {
                 fine += days;
-            }
         }
         return fine;
     }
@@ -195,17 +175,11 @@ public class ReaderService : IReaderService
         {
             var days = (transaction.ReturnDate - transaction.ExpectedReturnDate).Value.Days;
             if (days > 28)
-            {
                 fine += 10 * (days - 28);
-            }
             else if (days > 14)
-            {
                 fine += 5 * (days - 14);
-            }
             else if (days > 3)
-            {
                 fine += 2 * (days - 3);
-            }
         }
         return fine;
     }
