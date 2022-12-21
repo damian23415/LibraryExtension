@@ -9,7 +9,7 @@ namespace LibraryExtension.Infrastructure.Interfaces;
 
 public interface IBookService
 {
-    public Task<Book> AddBook(Book book);
+    Task<Book> AddBook(Book book);
     Task<Book> RemoveBook(int bookId);
     Task<Book> UpdateBook(int bookId, Book book);
     Task<Book> GetBook(int bookId);
