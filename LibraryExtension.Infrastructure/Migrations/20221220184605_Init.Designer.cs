@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryExtension.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221220151335_Init")]
+    [Migration("20221220184605_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -47,29 +47,6 @@ namespace LibraryExtension.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Book");
-                });
-
-            modelBuilder.Entity("LibraryExtension.Domain.Entities.BookTransaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("BookTransaction");
                 });
 
             modelBuilder.Entity("LibraryExtension.Domain.Entities.Reader", b =>
@@ -108,6 +85,9 @@ namespace LibraryExtension.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ReaderId")
                         .HasColumnType("int");
 
@@ -119,54 +99,40 @@ namespace LibraryExtension.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookId");
+
                     b.HasIndex("ReaderId");
 
                     b.ToTable("Transaction");
                 });
 
-            modelBuilder.Entity("LibraryExtension.Domain.Entities.BookTransaction", b =>
+            modelBuilder.Entity("LibraryExtension.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("LibraryExtension.Domain.Entities.Book", "Book")
-                        .WithMany("BookTransactions")
+                        .WithMany("Transactions")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LibraryExtension.Domain.Entities.Transaction", "Transaction")
-                        .WithMany("BookTransactions")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Transaction");
-                });
-
-            modelBuilder.Entity("LibraryExtension.Domain.Entities.Transaction", b =>
-                {
                     b.HasOne("LibraryExtension.Domain.Entities.Reader", "Reader")
                         .WithMany("Transactions")
                         .HasForeignKey("ReaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Book");
+
                     b.Navigation("Reader");
                 });
 
             modelBuilder.Entity("LibraryExtension.Domain.Entities.Book", b =>
                 {
-                    b.Navigation("BookTransactions");
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("LibraryExtension.Domain.Entities.Reader", b =>
                 {
                     b.Navigation("Transactions");
-                });
-
-            modelBuilder.Entity("LibraryExtension.Domain.Entities.Transaction", b =>
-                {
-                    b.Navigation("BookTransactions");
                 });
 #pragma warning restore 612, 618
         }

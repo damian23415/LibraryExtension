@@ -50,54 +50,30 @@ namespace LibraryExtension.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReaderId = table.Column<int>(type: "int", nullable: false)
+                    ReaderId = table.Column<int>(type: "int", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transaction", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Transaction_Book_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Book",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Transaction_Reader_ReaderId",
                         column: x => x.ReaderId,
                         principalTable: "Reader",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BookTransaction",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    TransactionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookTransaction", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BookTransaction_Book_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Book",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookTransaction_Transaction_TransactionId",
-                        column: x => x.TransactionId,
-                        principalTable: "Transaction",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookTransaction_BookId",
-                table: "BookTransaction",
+                name: "IX_Transaction_BookId",
+                table: "Transaction",
                 column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BookTransaction_TransactionId",
-                table: "BookTransaction",
-                column: "TransactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transaction_ReaderId",
@@ -109,13 +85,10 @@ namespace LibraryExtension.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookTransaction");
+                name: "Transaction");
 
             migrationBuilder.DropTable(
                 name: "Book");
-
-            migrationBuilder.DropTable(
-                name: "Transaction");
 
             migrationBuilder.DropTable(
                 name: "Reader");

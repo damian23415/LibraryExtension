@@ -10,9 +10,12 @@ namespace LibraryExtension.Domain.Entities;
 public class Book
 {
     public int Id { get; set; }
+    [Required, MaxLength(255)]
     public string Title { get; set; }
+    [Required, MaxLength(255)]
     public string Author { get; set; }
+    [Required, MaxLength(10)]
     public int BookAmount { get; set; }
 
-    public ICollection<BookTransaction> BookTransactions { get; set; }
+    public ICollection<Transaction> Transactions { get; set; }
 }

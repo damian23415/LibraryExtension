@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace LibraryExtension.Infrastructure.Interfaces;
 
-public interface IBook
+public interface ITransactionService
 {
-    public Task<Book> AddBook(Book book);
+    public Task<Transaction> BorrowBook(int bookId, int readerId, int rentalDays);
+    public Task<Transaction> ReturnBook(int transactionId);
 }

@@ -25,7 +25,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbCont
 
     public ApplicationDbContext CreateDbContext(string[] args)
     {
-        string filePath = @"E:\dev\KursModestProgrammer\LibraryExtension\LibraryExtension.Infrastructure\appsettings.json";
+        string filePath = @"E:\dev\LibraryExtension\LibraryExtension.Infrastructure\appsettings.json";
         IConfiguration Configuration = new ConfigurationBuilder()
                .SetBasePath(Path.GetDirectoryName(filePath))
                .AddJsonFile("appSettings.json")

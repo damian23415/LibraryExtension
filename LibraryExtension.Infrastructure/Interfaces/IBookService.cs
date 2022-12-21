@@ -1,13 +1,13 @@
-﻿using System;
+﻿using LibraryExtension.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace LibraryExtension.Infrastructure.Interfaces;
 
-public interface ILibrary
+public interface IBookService
 {
-    public decimal CalculateFine(Transaction transaction);
+    public Task<Book> AddBook(Book book);
 }
