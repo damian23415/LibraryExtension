@@ -56,6 +56,28 @@ public class TransactionService : ITransactionService
         }
     }
 
+    public async Task<Transaction> GetTransaction(int transactionId)
+    {
+        var transaction = await _context.Transaction.FirstOrDefaultAsync(x => x.Id == transactionId);
+        if (transaction is null)
+            throw new Exception("Nie ma takiej transakcji w bazie danych");
+        else
+            return transaction;
+    }
+
+    public async Task<Transaction> RemoveTransaction(int transactionId)
+    {
+        var transaction = _context.Transaction.FirstOrDefault(x => x.Id == transactionId);
+        if (transaction is null)
+            throw new Exception("Nie ma takiej transakcji w bazie, którą chcesz usunąć");
+        else
+        {
+            _context.Transaction.Remove(transaction);
+            await _context.SaveChangesAsync();
+            return transaction;
+        } 
+    }
+
     public async Task<Transaction> ReturnBook(int transactionId)
     {
         using(_context)
@@ -71,6 +93,24 @@ public class TransactionService : ITransactionService
             await _context.SaveChangesAsync();
 
             return transaction;
+        }
+    }
+
+    public async Task<Transaction> UpdateTransaction(int transactionId, Transaction transaction)
+    {
+        var transactionToEdit = await _context.Transaction.FirstOrDefaultAsync(x => x.Id == transactionId);
+        if (transactionToEdit is null)
+            throw new Exception("Nie możesz edytować transakcji, której nie ma w bazie danych");
+        else
+        {
+            transactionToEdit.ReturnDate = transaction.ReturnDate;
+            transactionToEdit.ExpectedReturnDate = transaction.ExpectedReturnDate;
+            transactionToEdit.RentDate = transaction.RentDate;
+            transactionToEdit.ReaderId = transaction.ReaderId;
+            transactionToEdit.BookId = transaction.BookId;
+
+            await _context.SaveChangesAsync();
+            return transactionToEdit;
         }
     }
 }

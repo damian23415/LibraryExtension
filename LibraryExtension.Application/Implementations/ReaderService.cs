@@ -115,8 +115,10 @@ public class ReaderService : IReaderService
     public async Task<Reader> GetReader(int readerId)
     {
         var reader = await _context.Reader.FirstOrDefaultAsync(x => x.Id == readerId);
-
-        return reader;
+        if (reader is null)
+            throw new Exception("Nie ma takiego czytelnika w bazie danych");
+        else
+            return reader;
     }
 
     public async Task<decimal> CalculateFine(int readerId)
