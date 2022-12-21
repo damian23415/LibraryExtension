@@ -18,4 +18,3 @@ Jeśli wszystko się powiodło w tym momencie mamy utworzoną bazę danych, jeś
 3. Aplikacja ma domyślnie zaimportowane narzędzie swagger co ułatwia testowanie projektu
 4. W Controlerze tworzymy endpointy, które chcemy przetestować i uruchamiamy aplikację, w tym momencie powinno otworzyć nam się okno przeglądarki wraz z metodą do przetestowania.
 5. Używamy metody w określony sposób (zależnie od metody) i weryfikujemy czy dane pobrane czy dodane do bazy zgadzają się z tymi w bazie :)
-4. Uruchomić plik Index.html, który znajduje się w: `TreeFolderStructure -> Views`.
