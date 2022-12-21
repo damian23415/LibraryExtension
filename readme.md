@@ -4,7 +4,7 @@ Stack techniczny wykorzystany w projekcie:
 - MSSQL,  
 - .NET 6
 - EntityFramework
-- Język C3
+- Język C#
 
 Aby uruchomić aplikację:
 1. Należy pobrać repozytorium, uruchomić i z poziomu Package Manager Console upewnić się, że startowy projekt to LibraryExtension.Infrastructure
