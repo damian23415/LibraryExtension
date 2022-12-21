@@ -84,9 +84,18 @@ public class BookService : IBookService
             else
             {
                 bookToEdit.Author = book.Author;
-                bookToEdit.Title = book.Title;
-                bookToEdit.BookAmount = book.BookAmount;
-
+                var bookAlreadyExists = await _context.Book.FirstOrDefaultAsync(x => x.Title == book.Title);
+                if (bookAlreadyExists is not null)
+                {
+                    bookAlreadyExists.BookAmount += 1;
+                    bookToEdit.BookAmount -= 1;
+                }
+                else
+                {
+                    bookToEdit.Title = book.Title;
+                    bookToEdit.BookAmount = book.BookAmount;
+                }
+                   
                 await _context.SaveChangesAsync();
 
                 return bookToEdit;

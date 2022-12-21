@@ -14,7 +14,7 @@ public class Book
     public string Title { get; set; }
     [Required, MaxLength(255)]
     public string Author { get; set; }
-    [Required, MaxLength(10)]
+    [Required]
     public int BookAmount { get; set; }
 
     public ICollection<Transaction> Transactions { get; set; }

@@ -89,7 +89,8 @@ public class ReaderService : IReaderService
             throw new Exception("Nie ma czytelnika, którego chcesz edytować w bazie");
         else
         {
-            if (_context.Reader.FirstOrDefaultAsync(x => x.Pesel == reader.Pesel) is not null)
+            var pesel = _context.Reader.FirstOrDefaultAsync(x => x.Pesel == reader.Pesel).Result;
+            if (pesel is not null)
                 throw new Exception("Nie możesz edytować na tkai numer pesel ponieważ taki pesel już istnieje w bazie");
             else
             {

@@ -4,6 +4,7 @@ using LibraryExtension.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryExtension.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221221164318_SomeFixes")]
+    partial class SomeFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,25 +197,25 @@ namespace LibraryExtension.Infrastructure.Migrations
                         {
                             Id = 1,
                             BookId = 1,
-                            ExpectedReturnDate = new DateTime(2022, 12, 28, 16, 48, 41, 11, DateTimeKind.Utc).AddTicks(3734),
+                            ExpectedReturnDate = new DateTime(2022, 12, 28, 16, 43, 18, 423, DateTimeKind.Utc).AddTicks(8779),
                             ReaderId = 1,
-                            RentDate = new DateTime(2022, 12, 21, 16, 48, 41, 11, DateTimeKind.Utc).AddTicks(3733)
+                            RentDate = new DateTime(2022, 12, 21, 16, 43, 18, 423, DateTimeKind.Utc).AddTicks(8778)
                         },
                         new
                         {
                             Id = 2,
                             BookId = 3,
-                            ExpectedReturnDate = new DateTime(2022, 12, 24, 16, 48, 41, 11, DateTimeKind.Utc).AddTicks(3740),
+                            ExpectedReturnDate = new DateTime(2022, 12, 24, 16, 43, 18, 423, DateTimeKind.Utc).AddTicks(8784),
                             ReaderId = 5,
-                            RentDate = new DateTime(2022, 12, 21, 16, 48, 41, 11, DateTimeKind.Utc).AddTicks(3740)
+                            RentDate = new DateTime(2022, 12, 21, 16, 43, 18, 423, DateTimeKind.Utc).AddTicks(8783)
                         },
                         new
                         {
                             Id = 3,
                             BookId = 2,
-                            ExpectedReturnDate = new DateTime(2023, 1, 5, 16, 48, 41, 11, DateTimeKind.Utc).AddTicks(3741),
+                            ExpectedReturnDate = new DateTime(2023, 1, 5, 16, 43, 18, 423, DateTimeKind.Utc).AddTicks(8785),
                             ReaderId = 2,
-                            RentDate = new DateTime(2022, 12, 21, 16, 48, 41, 11, DateTimeKind.Utc).AddTicks(3741)
+                            RentDate = new DateTime(2022, 12, 21, 16, 43, 18, 423, DateTimeKind.Utc).AddTicks(8784)
                         });
                 });
 
